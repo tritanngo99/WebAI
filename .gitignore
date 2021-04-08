@@ -1,0 +1,9 @@
+# For IDE
+.idea
+.vs
+
+# For sqlite3
+db.sqlite3
+
+# For cache
+learncode/__pycache__
