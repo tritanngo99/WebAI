@@ -1,3 +1,5 @@
 from django.db import models
 
-# Create your models here.
+class Notify(models.Model):
+    content = models.CharField(max_length=1024)
+    pub_date = models.DateTimeField('date published')
