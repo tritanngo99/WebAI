@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">STT</th>
+      <th scope="col">Name</th>
+      <th scope="col">Contest type</th>
+      <th scope="col">Start</th>
+      <th scope="col">Length</th>
+      <th scope="col">Status</th>
+      <th scope="col">Participant</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {% for contest in list_contest %}
+    <tr >
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{contest.name}}</td>
+      <td>{{contest.contest_type}}</td>
+      <td>{{contest.start}}</td>
+      <td>{{contest.length}}</td>
+      <td>{{contest.status}}</td>
+      <td>{{contest.participant}}</td>
+
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
