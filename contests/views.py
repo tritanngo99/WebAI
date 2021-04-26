@@ -5,7 +5,9 @@ from .models import Contest, Exercise
 
 
 def view_contest(request):
+
     contests = Contest.objects.all()
+
     context = {
         'list_contest' : contests
     }

@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+{% csrf_token %}
 Problem Code: {{ exercise.code }}<br>
 Time limit: {{ exercise.time_limit }} ms<br>
 Memory limit: {{ exercise.memory_limit }} MB<br>
 Description: {{ exercise.description }}<br>
 Input: {{ exercise.input }}<br>
 Output: {{ exercise.output }}
-<form action="#" method="post">
+<form action="/exercise/2/" method="post">
+    {% csrf_token %}
     <textarea rows="15" cols="100" name="code"></textarea><br>
     <input type="submit" name="submit">
 </form>
+
 {% endblock %}
