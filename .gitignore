@@ -6,4 +6,5 @@
 db.sqlite3
 
 # For cache
-app/__pycache__
+**/__pycache__/
+!**/migrations/**/__pycache__/
