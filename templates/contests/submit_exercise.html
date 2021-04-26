@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+Problem Code: {{ exercise.code }}<br>
+Time limit: {{ exercise.time_limit }} ms<br>
+Memory limit: {{ exercise.memory_limit }} MB<br>
+Description: {{ exercise.description }}<br>
+Input: {{ exercise.input }}<br>
+Output: {{ exercise.output }}
+<form action="#" method="post">
+    <input >
+    <input type="submit" name="submit">
+</form>
+{% endblock %}
