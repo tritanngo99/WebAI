@@ -1,7 +1,12 @@
 import re
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login as auth_login, logout
+
+
+def sign_out(request):
+    logout(request)
+    return redirect('/')
 
 
 def login(request):
@@ -10,9 +15,9 @@ def login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         print(username, password)
-        print('login 11')
         user = authenticate(username=username, password=password)
         if user is not None:
+            auth_login(request, user)
             return redirect('/')
         else:
             message = 'Login failed'
@@ -25,7 +30,7 @@ def register(request):
     if request.method == 'POST':
         user, error = get_user(request)
         if user is not None:
-            redirect('/login')
+            return redirect('/login')
         else:
             message = error
 
@@ -68,17 +73,16 @@ def check_username(username):
 
 
 def check_password(password, re_password):
-    pattern = '[a-zA-Z0-9]{4,64}'
-    if len(password)<8:
-        return 'Mat khau it nhat 8 ki tu'
+    if len(password) < 8:
+        return 'Mật khẩu ít nhất 8 kí tự'
     if password != re_password:
         return 'Nhập lại mật khẩu không trùng khớp'
-    dem=0
-    for t in password:
-        if(48 <=ord(t) and ord(t)<=57 ):
-            dem+=1
-    if(dem==len(password)):
-        return  'Mat khau phai chua it nhat 1 ki tu khac so'
-    # elif not re.match(pattern, password):
-    #     return 'Mật khẩu phải có 4 kí tự trở lên'
+
+    number_pattern = '^[0-9]+$'
+    if re.match(number_pattern, password):
+        return 'Mật khẩu phải chứa một kí tự khác số'
+
+    character_pattern = '^[a-zA-Z0-9]+$'
+    if not re.match(character_pattern, password):
+        return 'Mật khẩu chỉ được chứa các kí tự a-z, A-Z, 0-9'
     return None
