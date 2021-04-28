@@ -1,0 +1,28 @@
+1. git add .
+2. git commit -m "YourComment"
+3. git push -u origin main (--> git push)
+4. git pull
+5. git clone <link>
+6. git checkout -b <tennhanh>
+7. git checkout <tennhanh> (Tro toi nhanh can lam)
+8. git log --pretty=oneline
+9. git reset --hard  <id> (cua commit can quay ve)
+10. git revert --hard <id> (clone lai commit truoc do)
+11. git merge <ten nhanh can merge>
+12. git status
+13. git --oneline
+14. git branch <tennhanh>
+15. git branch <kiemtratennhanh>
+16. git switch beta !== git checkout beta
+17. git log --oneline --graph
+18. git branch -D master (xoa nhanh)
+19. git swich beta (Copy beta == master) roi re nhanh
+20. git cherry-pick <commit1> <commit2>
+21. git rebase -i HEAD~4
+22. git commit --amend
+23. git tag <tennhan> <ten commit>
+23.git checkout HEAD^2 (len parent 1 nac, va di qua cai thu 2)
+24. git checkout HEAD~2 (len parent 2 nac)
+25. git checkout HEAD~^2~2 (ket hop nhieu cai thanh 1 lan)
+26. git fetch + git merge = git pull
+27. git fakeTeamwork

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 # Create your views here.
 from .models import Contest, Exercise
 from .forms import UploadDataTrain
-
+from pathlib import Path
 def view_contest(request):
 
     contests = Contest.objects.all()
@@ -25,14 +25,18 @@ def submit_exercise(request, exercise_id):
     exercise = get_object_or_404(Exercise, pk=exercise_id)
     if request.method == 'POST':
         form = UploadDataTrain(request.POST, request.FILES)
-
-            print("postttttttttt")
-            # print(request.FILES['file'])
+        if form.is_valid():
+            # print(request.user.username)
+            handle_upload_file(request.FILES['file'])
             return HttpResponse("hello")
     else:
         form = UploadDataTrain()
-    # print(form)
     return render(request, 'contests/submit_exercise.html', {'exercise': exercise,'form':form})
 
-# def upload_file(request):
-#         return
+def handle_upload_file(file):
+    path = Path(__file__)
+    root_path = str(path.parent.parent)+'/storage/'
+    with open(root_path + str(file),'wb+') as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
+

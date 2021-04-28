@@ -1,0 +1,21 @@
+access-list 104 deny icmp any 10.10.0.0 0.0.255.255 echo
+access-list 104 permit tcp any 10.10.0.0 0.0.255.255 establish
+access-list 104 deny tcp any 10.10.0.0 0.0.255.255
+access-list 104 permit ip any any
+int fa0/0
+ip access-group 104 in
+
+
+b5
+access-list 105 permit tcp 10.10.1.0 0.0.0.255 any eq 80
+access-list 105 permit ip 10.10.1.0 0.0.0.255 10.10.4.0 0.0.0.255
+access-list 105 deny ip 10.10.1.0 0.0.0.255 any
+access-list 105 permit ip any any
+
+b6
+access-list 106 permit tcp 10.10.2.0 0.0.0.255 10.10.3.0 0.0.0.255 eq 21
+access-list 106 permit tcp 10.10.2.0 0.0.0.255 eq 21 10.10.3.0 0.0.0.255 
+access-list 106 permit tcp 10.10.2.0 0.0.0.255 10.10.3.0 0.0.0.255 gt 1023
+access-list 106 permit tcp 10.10.2.0 0.0.0.255 gt 1023 10.10.3.0 0.0.0.255
+access-list 106 deny ip 10.10.2.0 0.0.0.255 10.10.3.0 0.0.0.255
+access-list 106 permit ip any any
