@@ -6,7 +6,8 @@ class Contest(models.Model):
     start = models.DateTimeField('date-published')
     length = models.DurationField()
     status = models.CharField(max_length=20)
-    participant = models.IntegerField()
+    participant = models.IntegerField(default=0)
+
     def __str__(self):
         return self.name
     def get_status(self):
@@ -25,7 +26,7 @@ class Exercise (models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=50)
-    solved = models.IntegerField()
+    solved = models.IntegerField(default=0)
     time_limit = models.IntegerField()
     memory_limit = models.IntegerField()
     description = models.TextField()
