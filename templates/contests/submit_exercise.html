@@ -7,10 +7,22 @@ Memory limit: {{ exercise.memory_limit }} MB<br>
 Description: {{ exercise.description }}<br>
 Input: {{ exercise.input }}<br>
 Output: {{ exercise.output }}
-<form action="/exercise/2/" method="post">
+<form action="/exercise/1/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <textarea rows="15" cols="100" name="code"></textarea><br>
-    <input type="submit" name="submit">
+<!--    <textarea rows="15" cols="100" name="code"></textarea><br>-->
+<!--    <div style="width:130px">-->
+<!--        <select class="browser-default custom-select">-->
+<!--        <option selected>Language</option>-->
+<!--        <option value="1">C++</option>-->
+<!--        <option value="2">Java</option>-->
+<!--        <option value="3">Python</option>-->
+<!--    </select>-->
+<!--    </div>-->
+
+    {{ form }}
+    <input type="submit" name="submit" style="margin-top:10px">
 </form>
+
+
 
 {% endblock %}

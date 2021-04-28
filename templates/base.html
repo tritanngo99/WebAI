@@ -22,17 +22,20 @@
     <div class="collapse navbar-collapse" id="navbarNav">
 
     </div>
-    <ul class="navbar-nav">
+    <ul class="navbar-nav" >
       {% if request.user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
+        <a class="nav-link" href="#" style="color:blue">{{request.user.username}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout" style="color:blue">Logout</a>
       </li>
       {% else %}
       <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
+        <a class="nav-link" href="/login" style="color:blue">Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/register">Sign Up</a>
+        <a class="nav-link" href="/register" style="color:blue">Sign Up</a>
       </li>
       {% endif %}
     </ul>
