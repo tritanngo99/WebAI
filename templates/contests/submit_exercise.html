@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% csrf_token %}
+
 <div  style="font-size:13px">
     Problem Code: {{ exercise.code }}<br>
     Time limit: {{ exercise.time_limit }} ms<br>
@@ -11,6 +12,7 @@
 </div>
 
 <form action="/exercise/1/" method="post" enctype="multipart/form-data" style="font-size:13px">
+
     {% csrf_token %}
 <!--    <textarea rows="15" cols="100" name="code"></textarea><br>-->
 <!--    <div style="width:130px">-->

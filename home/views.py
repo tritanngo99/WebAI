@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Notify
 
 
@@ -9,3 +9,8 @@ def index(request):
         'notifies': notifies
     }
     return render(request, 'home/index.html', context)
+
+
+def detail(request, notify_id):
+    notify = get_object_or_404(Notify, pk=notify_id)
+    return render(request, 'home/detail.html', {'notify': notify})
