@@ -3,7 +3,7 @@ from django.http import HttpResponse
 # Create your views here.
 from .models import Contest, Exercise
 from .forms import UploadDataTrain
-from .chamcode_test import solve
+from .chamcode import solve
 from pathlib import Path
 
 

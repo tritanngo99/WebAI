@@ -1,2 +1,9 @@
 # created by virtualenv automatically
-*
+storage/*
+lib/
+bin/
+migrations/
+db.sqlite3
+pyvenv.cfg
+__pycache__/
+out1
