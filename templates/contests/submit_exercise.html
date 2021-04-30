@@ -10,7 +10,7 @@
     Output: {{ exercise.output }}
 </div>
 
-<form action="/exercise/1/" method="post" enctype="multipart/form-data" style="font-size:13px">
+<form action="/exercise/{{exercise.id}}/submitcode/" method="post" enctype="multipart/form-data" style="font-size:13px">
     {% csrf_token %}
 <!--    <textarea rows="15" cols="100" name="code"></textarea><br>-->
 <!--    <div style="width:130px">-->
