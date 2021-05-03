@@ -1,5 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
+
+
 class Contest(models.Model):
     name = models.CharField(max_length=256)
     contest_type = models.CharField(max_length=20)
@@ -18,7 +21,6 @@ class Contest(models.Model):
             return "Before start {}".format(subtime)
         else :
             subtime = timezone.now() - self.start
-            print(subtime)
             if subtime < self.length:
                 return "After end {}".format(subtime)
             return "Final standings"
@@ -35,3 +37,13 @@ class Exercise (models.Model):
 
     def __str__(self):
         return self.name
+class TestCase(models.Model):
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    input = models.TextField()
+    output = models.TextField()
+
+class Result(models.Model):
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    filecode = models.FileField()
+    score = models.IntegerField()

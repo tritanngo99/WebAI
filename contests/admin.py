@@ -1,5 +1,7 @@
 from django.contrib import admin
-from . models import Contest, Exercise
+from . models import Contest, Exercise, Result, TestCase
 # Register your models here.
 admin.site.register(Contest)
 admin.site.register(Exercise)
+admin.site.register(TestCase)
+admin.site.register(Result)
