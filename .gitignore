@@ -1,9 +1,15 @@
-# For IDE
-.idea
-.vs
-
-# For sqlite3
+# created by virtualenv automatically
+lib/
+bin/
+migrations/
 db.sqlite3
 
 # For cache
 **/__pycache__/
+pyvenv.cfg
+__pycache__/
+out1
+
+# For IDE
+.idea/
+.vs/
