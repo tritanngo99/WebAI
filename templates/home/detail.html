@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>{{ notify.title }}</h2>
-<p>{{ notify.pub_date }}</p>
-<p>{{ notify.content }}</p>
+<div style="font-size:14px; margin-top:10px">
+    <h5>{{ notify.title }}</h5>
+    <pre>{{ notify.pub_date }}</pre>
+    <pre>{{ notify.content }}</pre>
+</div>
+
 {% endblock %}
