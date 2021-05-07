@@ -24,6 +24,12 @@ class Contest(models.Model):
             if subtime < self.length:
                 return "After end {}".format(subtime)
             return "Final standings"
+
+    # def get_participant(self):
+    #     exercises = self.exercise_set.all()
+    #     count = 0
+    #     for exercise in exercises:
+    #
 class Exercise (models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     code = models.CharField(max_length=10)
@@ -45,5 +51,4 @@ class TestCase(models.Model):
 class Result(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    filecode = models.FileField()
     score = models.IntegerField()

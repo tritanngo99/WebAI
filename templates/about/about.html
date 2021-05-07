@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="font-size:13px">
+    <b>Username: </b> {{request.user.username}}<br>
+    <b>Name: </b> {{request.user.firstname}} {{request.user.lastname}}<br>
+    <b>Email: </b> {{request.user.email}}<br>
+    <b><a href="http://127.0.0.1:8000/admin/">Admin</a></b>
+</div>
+{% endblock %}
