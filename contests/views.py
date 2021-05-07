@@ -19,9 +19,9 @@ def view_contest(request):
 
 def detail(request, contest_id):
     contest = get_object_or_404(Contest, pk = contest_id)
-    exercise = contest.exercise_set.all()
+    exercises = contest.exercise_set.all()
 
-    return render(request, "contests/detail.html",{'contest':contest,'ex':exercise})
+    return render(request, "contests/detail.html",{'contest':contest,'ex':exercises})
 
 
 def submit_exercise(request, exercise_id):

@@ -10,3 +10,4 @@ def handle_upload_file(file):
 def write_input(text):
     f = open('./storage/inp.txt', 'w+')
     f.write(text)
+    f.close()
