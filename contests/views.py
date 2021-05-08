@@ -2,19 +2,16 @@ import os
 
 from django.shortcuts import render, get_object_or_404
 
-from .models import Contest, Exercise, TestCase
-from .forms import UploadDataTrain
-from .runcode import solve
-from .writefile import handle_upload_file, write_input
-from .removefile import remove_file_in_storage
-from pathlib import Path
+from django.http import HttpResponse
 
-from subprocess import *
+from .models import Contest, Exercise
+from .forms import UploadDataTrain
+from .runcode import run_file_code
+from .writefile import handle_upload_file, write_input
 
 
 def view_contest(request):
     contests = Contest.objects.all()
-
     context = {
         'list_contest': contests
     }
@@ -24,7 +21,6 @@ def view_contest(request):
 def detail(request, contest_id):
     contest = get_object_or_404(Contest, pk=contest_id)
     exercises = contest.exercise_set.all()
-
     return render(request, "contests/detail.html", {'contest': contest, 'ex': exercises})
 
 
@@ -37,27 +33,44 @@ def submit_exercise(request, exercise_id):
 def submit_and_run(request, exercise_id):
     if request.method == 'POST':
         form = UploadDataTrain(request.POST, request.FILES)
-        # lala = check_output("python3 ./contests/alo.py",shell = True)
-        # print(lala.decode("UTF-8"))
+        # check validation
+        if not request.user.is_authenticated:
+            return HttpResponse('Unauthorized', status=401)
+
         if form.is_valid():
-            # print(request.user.username)
-            handle_upload_file(request.FILES['file'])
-            file_name = str(request.FILES['file'])
-            file_run = './storage/' + file_name
+            file = request.FILES['file']
+            file_name = handle_upload_file(file)
+            print('file_name', file_name)
+
             exercise = get_object_or_404(Exercise, pk=exercise_id)
-            path = Path(__file__)
+
             list_testcase = exercise.testcase_set.all()
-            result = ''
+            total = len(list_testcase)
+            count = 0
+
             for testcase in list_testcase:
-                print(testcase.input)
-                write_input(testcase.input)
-                output_code = str(solve(file_run)).rsplit()
-                print(output_code)
-                output_test = str(testcase.output).rsplit()
-                print(output_test)
-                if (output_code == output_test):
-                    result = 'success'
-            # remove_file(file_name)
+                print('testcase', testcase.input)
+                file_input = write_input(testcase.input)
+                print('file_input', file_input)
+
+                try:
+                    output = run_file_code(file_name, file_input)
+                    print('output', output)
+                    output_test = str(testcase.output).strip()
+                    print(output_test)
+
+                    if output == output_test:
+                        count += 1
+                except Exception as e:
+                    print(e)
+
+                # remove file input
+                os.remove(file_input)
+
+            # remove file code
+            os.remove(file_name)
+            result = '{}/{}'.format(count, total)
+
             return render(request, 'contests/result.html', {'output': result})
     else:
         submit_exercise(request, exercise_id)
