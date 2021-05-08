@@ -53,7 +53,7 @@
         </li>
         {% if request.user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="/about">ABOUT</a>
+          <a class="nav-link active" href="/about">ABOUT</a>
         </li>
         {% endif %}
       </ul>
@@ -62,7 +62,7 @@
   </div>
 
 </div>
-<div class="container">
+<div class="container" style="margin-top: 1.5rem">
   {% block content %}{% endblock %}
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
