@@ -13,13 +13,14 @@ class Contest(models.Model):
 
     def __str__(self):
         return self.name
+
     def get_status(self):
         subtime = self.start - timezone.now()
         if subtime.days > 0:
-            return "Before start {}".format(subtime.days) +" day"
-        elif subtime.days == 0 :
+            return "Before start {}".format(subtime.days) + " day"
+        elif subtime.days == 0:
             return "Before start {}".format(subtime)
-        else :
+        else:
             subtime = timezone.now() - self.start
             if subtime < self.length:
                 return "After end {}".format(subtime)
@@ -30,7 +31,9 @@ class Contest(models.Model):
     #     count = 0
     #     for exercise in exercises:
     #
-class Exercise (models.Model):
+
+
+class Exercise(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=50)
@@ -43,10 +46,13 @@ class Exercise (models.Model):
 
     def __str__(self):
         return self.name
+
+
 class TestCase(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     input = models.TextField()
     output = models.TextField()
+
 
 class Result(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)

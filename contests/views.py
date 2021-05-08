@@ -2,61 +2,80 @@ import os
 
 from django.shortcuts import render, get_object_or_404
 
-from .models import Contest, Exercise, TestCase
+from django.http import HttpResponse
+
+from .models import Contest, Exercise
 from .forms import UploadDataTrain
-from .runcode import solve
+from .runcode import run_file_code
 from .writefile import handle_upload_file, write_input
-from .removefile import remove_file_in_storage
-from pathlib import Path
 
-
-from subprocess import *
 
 def view_contest(request):
-
     contests = Contest.objects.all()
-
     context = {
-        'list_contest' : contests
+        'list_contest': contests
     }
-    return render(request, 'contests/contest.html',context)
+    return render(request, 'contests/contest.html', context)
+
 
 def detail(request, contest_id):
-    contest = get_object_or_404(Contest, pk = contest_id)
+    contest = get_object_or_404(Contest, pk=contest_id)
     exercises = contest.exercise_set.all()
+    return render(request, "contests/detail.html", {'contest': contest, 'ex': exercises})
 
-    return render(request, "contests/detail.html",{'contest':contest,'ex':exercises})
+
+def view_exercise(request, exercise_id):
+    if request.method == 'POST':
+        # check validation
+        if not request.user.is_authenticated:
+            return HttpResponse('Unauthorized', status=401)
+
+        form = UploadDataTrain(request.POST, request.FILES)
+
+        if form.is_valid():
+            return __submit_code(request, exercise_id)
+    else:
+        return __show_form_submit(request, exercise_id)
 
 
-def submit_exercise(request, exercise_id):
+def __submit_code(request, exercise_id):
+    file = request.FILES['file']
+    file_name = handle_upload_file(file)
+    print('file_name', file_name)
+
+    exercise = get_object_or_404(Exercise, pk=exercise_id)
+
+    list_testcase = exercise.testcase_set.all()
+    total = len(list_testcase)
+    count = 0
+
+    for testcase in list_testcase:
+        print('testcase', testcase.input)
+        file_input = write_input(testcase.input)
+        print('file_input', file_input)
+
+        try:
+            output = run_file_code(file_name, file_input)
+            print('output', output)
+            output_test = str(testcase.output).strip()
+            print(output_test)
+
+            if output == output_test:
+                count += 1
+        except Exception as e:
+            print(e)
+
+        # remove file input
+        os.remove(file_input)
+
+    # remove file code
+    os.remove(file_name)
+
+    return render(request, 'contests/result.html', {'total': total, 'count': count})
+
+
+def __show_form_submit(request, exercise_id):
     exercise = get_object_or_404(Exercise, pk=exercise_id)
     form = UploadDataTrain()
-    return render(request, 'contests/submit_exercise.html', {'exercise': exercise,'form':form})
-
-def submit_and_run(request, exercise_id):
-    if request.method == 'POST':
-        form = UploadDataTrain(request.POST, request.FILES)
-        # lala = check_output("python3 ./contests/alo.py",shell = True)
-        # print(lala.decode("UTF-8"))
-        if form.is_valid():
-            # print(request.user.username)
-            handle_upload_file(request.FILES['file'])
-            file_name = str(request.FILES['file'])
-            file_run = './storage/' + file_name
-            exercise = get_object_or_404(Exercise, pk=exercise_id)
-            path = Path(__file__)
-            list_testcase = exercise.testcase_set.all()
-            result=''
-            for testcase in list_testcase:
-                print(testcase.input)
-                write_input(testcase.input)
-                output_code = str(solve(file_run)).rsplit()
-                print(output_code)
-                output_test = str(testcase.output).rsplit()
-                print(output_test)
-                if (output_code==output_test):
-                    result = 'success'
-            # remove_file(file_name)
-            return render(request, 'contests/result.html', {'output':result})
-    else:
-        submit_exercise(request, exercise_id)
+    return render(request, 'contests/submit_exercise.html', {'exercise': exercise, 'form': form})
+    submit_exercise(request, exercise_id)
