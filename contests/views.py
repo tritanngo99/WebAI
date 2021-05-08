@@ -9,29 +9,30 @@ from .writefile import handle_upload_file, write_input
 from .removefile import remove_file_in_storage
 from pathlib import Path
 
-
 from subprocess import *
 
-def view_contest(request):
 
+def view_contest(request):
     contests = Contest.objects.all()
 
     context = {
-        'list_contest' : contests
+        'list_contest': contests
     }
-    return render(request, 'contests/contest.html',context)
+    return render(request, 'contests/contest.html', context)
+
 
 def detail(request, contest_id):
-    contest = get_object_or_404(Contest, pk = contest_id)
+    contest = get_object_or_404(Contest, pk=contest_id)
     exercises = contest.exercise_set.all()
 
-    return render(request, "contests/detail.html",{'contest':contest,'ex':exercises})
+    return render(request, "contests/detail.html", {'contest': contest, 'ex': exercises})
 
 
 def submit_exercise(request, exercise_id):
     exercise = get_object_or_404(Exercise, pk=exercise_id)
     form = UploadDataTrain()
-    return render(request, 'contests/submit_exercise.html', {'exercise': exercise,'form':form})
+    return render(request, 'contests/submit_exercise.html', {'exercise': exercise, 'form': form})
+
 
 def submit_and_run(request, exercise_id):
     if request.method == 'POST':
@@ -46,7 +47,7 @@ def submit_and_run(request, exercise_id):
             exercise = get_object_or_404(Exercise, pk=exercise_id)
             path = Path(__file__)
             list_testcase = exercise.testcase_set.all()
-            result=''
+            result = ''
             for testcase in list_testcase:
                 print(testcase.input)
                 write_input(testcase.input)
@@ -54,9 +55,9 @@ def submit_and_run(request, exercise_id):
                 print(output_code)
                 output_test = str(testcase.output).rsplit()
                 print(output_test)
-                if (output_code==output_test):
+                if (output_code == output_test):
                     result = 'success'
             # remove_file(file_name)
-            return render(request, 'contests/result.html', {'output':result})
+            return render(request, 'contests/result.html', {'output': result})
     else:
         submit_exercise(request, exercise_id)
