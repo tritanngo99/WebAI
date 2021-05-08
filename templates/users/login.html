@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="d-flex justify-content-center" style="font-size:13px">
-  <form class="col-6" action="/login/" method="post">
+  <form class="col-6" action="" method="post">
     {% csrf_token %}
     <div class="form-group">
       <label for="username_id">Username</label>
@@ -12,6 +12,7 @@
       <input name="password" type="password" class="form-control" id="password_id" placeholder="Password">
     </div>
     <p class="text-danger">{{ message }}</p>
+    <input type="hidden" name="next" value="{{ request.GET.next }}"/>
     <button type="submit" class="btn btn-primary">Đăng nhập</button>
   </form>
 </div>

@@ -2,30 +2,37 @@ import re
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout
+from django.core.handlers.wsgi import WSGIRequest
 
 
-def sign_out(request):
+def sign_out(request: WSGIRequest):
     logout(request)
     return redirect('/')
 
 
-def login(request):
+def login(request: WSGIRequest):
     message = ''
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username, password)
         user = authenticate(username=username, password=password)
+
         if user is not None:
             auth_login(request, user)
-            return redirect('/')
+            redirect_to = '/'
+
+            if request.POST.get('next') != '':
+                redirect_to = request.POST.get('next')
+
+            return redirect(redirect_to)
         else:
             message = 'Login failed'
 
     return render(request, 'users/login.html', {'message': message})
 
 
-def register(request):
+def register(request: WSGIRequest):
     message = ''
     if request.method == 'POST':
         user, error = get_user(request)
@@ -37,7 +44,7 @@ def register(request):
     return render(request, 'users/register.html', {'message': message})
 
 
-def get_user(request):
+def get_user(request: WSGIRequest):
     username = request.POST.get('username')
     password = request.POST.get('password')
     re_password = request.POST.get('re_password')
