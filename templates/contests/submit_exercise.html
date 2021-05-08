@@ -2,30 +2,24 @@
 {% block content %}
 {% csrf_token %}
 
-<div  style="font-size:13px">
-    Problem Code: {{ exercise.code }}<br>
-    Time limit: {{ exercise.time_limit }} ms<br>
-    Memory limit: {{ exercise.memory_limit }} MB<br>
-    Description: {{ exercise.description }}<br>
-    Input: {{ exercise.input }}<br>
-    Output: {{ exercise.output }}
+<div style="font-size:13px">
+  Problem Code: {{ exercise.code }}<br>
+  Time limit: {{ exercise.time_limit }} ms<br>
+  Memory limit: {{ exercise.memory_limit }} MB<br>
+  Description: {{ exercise.description }}<br>
+  Input: {{ exercise.input }}<br>
+  Output: {{ exercise.output }}
 </div>
-
-
-<form action="/exercise/{{exercise.id}}/submitcode/" method="post" enctype="multipart/form-data" style="font-size:13px">
-
-    {% csrf_token %}
-<!--    <textarea rows="15" cols="100" name="code"></textarea><br>-->
-<!--    <div style="width:130px">-->
-<!--        <select class="browser-default custom-select">-->
-<!--        <option selected>Language</option>-->
-<!--        <option value="1">C++</option>-->
-<!--        <option value="2">Java</option>-->
-<!--        <option value="3">Python</option>-->
-<!--    </select>-->
-<!--    </div>-->
-
-    {{ form }}
-    <input type="submit" name="submit" style="margin-top:10px">
+{% if request.user.is_authenticated %}
+<form action="/exercise/{{exercise.id}}/submitcode/"
+      method="post"
+      enctype="multipart/form-data"
+      style="font-size:13px">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" name="submit" style="margin-top:10px">
 </form>
+{% else %}
+<p>Please <a href="/login?next={{ request.path }}">login</a> to submit.</p>
+{% endif %}
 {% endblock %}
