@@ -13,21 +13,7 @@ root_path = '{}/storage/'.format(path)
 
 # return file name
 def handle_upload_file(file) -> str:
-    origin_name = str(file)
-
-    file_extensions = ['.py', '.c', '.cpp', '.java']
-    file_extension = ''
-
-    for extension in file_extensions:
-        if origin_name.endswith(extension):
-            file_extension = extension
-            break
-
-    # file extension invalid
-    if file_extension == '':
-        return None
-
-    file_name = str(uuid4()) + file_extension
+    file_name = str(file)
     file_path = root_path + file_name
 
     with open(file_path, 'wb+') as destination:

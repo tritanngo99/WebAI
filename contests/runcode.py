@@ -34,7 +34,13 @@ def run_file_cpp(file: str, file_input: str) -> str:
 
 
 def run_file_java(file: str, file_input: str) -> str:
-    command = 'java {} < {}'.format(file, file_input)
+    position = file.rfind('/')
+
+    directory = file[:position]
+    file_name = file[position+1:]
+    file_build = file_name.replace('.java', '')
+
+    command = 'cd {} && javac {} && java {} < {}'.format(directory, file_name, file_build, file_input)
     output = check_output(command, timeout=TIME_OUT, stderr=STDOUT, shell=True)
     output = output.strip()
     return output.decode()
