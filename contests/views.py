@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 
 from django.http import HttpResponse, HttpResponseRedirect
 
-from .models import Contest, Exercise, Result, Rank
+from .models import Contest, Exercise, Result
 
 
 from .forms import UploadDataTrain
@@ -102,16 +102,11 @@ def __submit_code(request, exercise_id):
 
     # remove file code
     os.remove(file_name)
-    score = count*10
-    total_score = total*10
-    result = Result(exercise=exercise,user=request.user,score=score,total=total_score)
+    score = int(count/total*100)
+    print(score)
+    result = Result(exercise=exercise,user=request.user,score=score)
     result.save()
-
-
-
-
-
-    return render(request, 'contests/result.html', {'total': total, 'count': count})
+    return render(request, 'contests/result.html', {'score':score})
 def __show_form_submit(request, exercise_id):
     exercise = get_object_or_404(Exercise, pk=exercise_id)
     form = UploadDataTrain()
