@@ -3,10 +3,6 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
-
-
-
-
 class Contest(models.Model):
     name = models.CharField(max_length=256)
     contest_type = models.CharField(max_length=20)
@@ -58,14 +54,8 @@ class TestCase(models.Model):
 class Result(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    score = models.IntegerField(default=0)
-    total = models.IntegerField(default=100)
+    score = models.IntegerField()
 
     def __str__(self):
         result = '{} {} {}/{}'.format(self.exercise.name,self.user.username,self.score,self.total)
         return result
-
-class Rank(models.Model):
-    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    score = models.IntegerField(default=0)
