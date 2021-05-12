@@ -22,7 +22,7 @@ def handle_upload_file(file) -> str:
         if origin_name.endswith(extension):
             file_extension = extension
             break
-
+    print(file_extension)
     # file extension invalid
     if file_extension == '':
         return None

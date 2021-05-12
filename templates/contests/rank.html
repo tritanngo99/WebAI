@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<table class="table table-bordered" style="font-size: 13px;margin-top:15px">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Username</th>
+      <th scope="col">Contest</th>
+      <th scope="col">Score</th>
+      <th scope="col">Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user, score in rank.items %}
+    <tr >
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{user}}</td>
+      <td>{{contest}}</td>
+      <td>{{score}}</td>
+      <td></td>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+{% endblock %}
