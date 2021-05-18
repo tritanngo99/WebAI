@@ -4,6 +4,34 @@
     <b>Username: </b> {{request.user.username}}<br>
     <b>Name: </b> {{request.user.firstname}} {{request.user.lastname}}<br>
     <b>Email: </b> {{request.user.email}}<br>
-    <b><a href="http://127.0.0.1:8000/admin/">Admin</a></b>
+    {% if request.user.is_superuser %}
+    <b><a href="/admin/">Admin</a></b>
+    {% endif %}
+    {% if request.user.is_staff and not request.user.is_superuser %}
+    <b><a href="/admin/">Add Contest</a></b>
+    {% endif %}
+  <table class="table table-bordered" style="font-size: 13px;margin-top:15px">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Exercise</th>
+      <th scope="col">Contest</th>
+      <th scope="col">Score</th>
+      <th scope="col">Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for result in list_result %}
+    <tr >
+      <th scope="row">{{forloop.counter}}</th>
+      <td><a href="/exercise/{{result.exercise.id}}/">{{result.exercise}}</a></td>
+      <td><a href="/contest/{{result.exercise.contest.id}}/">{{result.exercise.contest}}</a></td>
+      <td>{{result.score}}</td>
+      <td></td>
+    {% endfor %}
+
+  </tbody>
+</table>
+
 </div>
 {% endblock %}

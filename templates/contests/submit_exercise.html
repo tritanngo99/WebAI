@@ -3,12 +3,12 @@
 {% csrf_token %}
 
 <div style="font-size:13px">
-  Problem Code: {{ exercise.code }}<br>
-  Time limit: {{ exercise.time_limit }} ms<br>
-  Memory limit: {{ exercise.memory_limit }} MB<br>
-  Description: {{ exercise.description }}<br>
-  Input: {{ exercise.input }}<br>
-  Output: {{ exercise.output }}
+  <b>Problem Code:</b><br>{{ exercise.code }}<br>
+  <b>Time limit:</b><br>{{ exercise.time_limit }} ms<br>
+  <b>Memory limit:</b><br>{{ exercise.memory_limit }} MB<br>
+  <b>Description:</b><br>{{ exercise.description }}<br>
+  <b>Input:</b><br>{{ exercise.input }}<br>
+  <b>Output:</b><br>{{ exercise.output }}
 </div>
 {% if request.user.is_authenticated %}
 <form action="/exercise/{{exercise.id}}/"
