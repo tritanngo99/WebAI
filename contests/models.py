@@ -4,12 +4,12 @@ from django.utils import timezone
 
 
 class Contest(models.Model):
+    author = models.ForeignKey(User,null=True,blank=True,on_delete=models.CASCADE)
     name = models.CharField(max_length=256)
     contest_type = models.CharField(max_length=20)
     start = models.DateTimeField('date-published')
     length = models.DurationField()
     participant = models.IntegerField(default=0)
-
     def __str__(self):
         return self.name
 
@@ -57,5 +57,5 @@ class Result(models.Model):
     score = models.IntegerField()
 
     def __str__(self):
-        result = '{} {} {}/{}'.format(self.exercise.name,self.user.username,self.score,self.total)
+        result = '{} {} {}'.format(self.exercise.name,self.user.username,self.score)
         return result

@@ -3,6 +3,7 @@ import os
 from django.shortcuts import render, get_object_or_404
 
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic import CreateView
 
 from .models import Contest, Exercise, Result
 
@@ -10,7 +11,6 @@ from .models import Contest, Exercise, Result
 from .forms import UploadDataTrain
 from .runcode import run_file_code
 from .writefile import handle_upload_file, write_input
-
 
 def view_contest(request):
     contests = Contest.objects.all()
@@ -46,7 +46,8 @@ def rank(request, contest_id):
                 result_contest[user] +=max_score
         # for result in result_contest:
         #     rank=Rank(contest=contest,user=result.keys)
-        context = {'rank':result_contest, 'contest':contest}
+        rank = dict(sorted(result_contest.items(), key=lambda item: item[1]))
+        context = {'rank':rank, 'contest':contest}
         return render(request,'contests/rank.html',context)
     else:
         view_contest(request, contest_id)
